@@ -629,3 +629,4 @@ public class BufferedReader extends Reader
       throw new IOException("Stream closed");
   }
 }
+// vim: shiftwidth=2

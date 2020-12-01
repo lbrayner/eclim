@@ -27,6 +27,8 @@ import org.apache.commons.vfs.VFS;
 
 import org.eclim.Services;
 
+import org.eclim.logging.Logger;
+
 import org.eclim.util.IOUtils;
 
 /**
@@ -37,6 +39,8 @@ import org.eclim.util.IOUtils;
  */
 public class FileOffsets
 {
+  private static final Logger logger = Logger.getLogger(FileOffsets.class);
+
   private Integer[] offsets;
   private String[] multiByteLines;
 
@@ -53,6 +57,12 @@ public class FileOffsets
   public static FileOffsets compile(String filename)
   {
     try{
+
+      if(logger.isDebugEnabled())
+      {
+        logger.debug("compile filename {}", filename);
+      }
+
       FileSystemManager fsManager = VFS.getManager();
       FileObject file = fsManager.resolveFile(filename.replace("%", "%25"));
 
@@ -180,3 +190,4 @@ public class FileOffsets
     return offsets[line].intValue() - 1;
   }
 }
+// vim: shiftwidth=2
