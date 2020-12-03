@@ -74,7 +74,9 @@ public class FileOffsets
         throw new IllegalArgumentException(
             Services.getMessage("file.not.found", filename));
       }
-      return compile(file.getContent().getInputStream());
+      FileOffsets fileOffsets = compile(file.getContent().getInputStream());
+      file.close();
+      return fileOffsets;
     }catch(Exception e){
       throw new RuntimeException(e);
     }
