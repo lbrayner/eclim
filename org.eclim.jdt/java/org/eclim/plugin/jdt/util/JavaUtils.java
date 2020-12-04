@@ -327,6 +327,7 @@ public class JavaUtils
             }
           }finally{
             IOUtils.closeQuietly(in);
+            file.close();
           }
         }
       }

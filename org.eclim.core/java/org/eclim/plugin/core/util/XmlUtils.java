@@ -677,6 +677,9 @@ public class XmlUtils
         InputSource source =
           new InputSource(tempFile.getContent().getInputStream());
         source.setSystemId(location);
+        if(logger.isDebugEnabled())
+            logger.debug("closing tempFile");
+        tempFile.close();
         return source;
 
       }else if(location.startsWith("file:")){

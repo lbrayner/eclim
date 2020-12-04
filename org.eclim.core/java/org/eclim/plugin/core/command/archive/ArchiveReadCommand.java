@@ -87,6 +87,8 @@ public class ArchiveReadCommand
         in = fileObject.getContent().getInputStream();
         out = tempFile.getContent().getOutputStream();
         IOUtils.copy(in, out);
+        fileObject.close();
+        tempFile.close();
 
         new File(path).deleteOnExit();
       //}

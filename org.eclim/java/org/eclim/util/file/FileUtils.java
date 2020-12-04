@@ -73,8 +73,10 @@ public class FileUtils
       FileSystemManager fsManager = VFS.getManager();
       FileObject file = fsManager.resolveFile(filename.replace("%", "%25"));
 
-      return byteOffsetToCharOffset(
+      int byteOffsetToCharOffset = byteOffsetToCharOffset(
           file.getContent().getInputStream(), byteOffset, encoding);
+      file.close();
+      return byteOffsetToCharOffset;
     }catch(FileSystemException fse){
       throw new RuntimeException(fse);
     }

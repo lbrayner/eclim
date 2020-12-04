@@ -72,6 +72,8 @@ import org.eclipse.jdt.core.search.SearchMatch;
 import org.eclipse.jdt.core.search.SearchParticipant;
 import org.eclipse.jdt.core.search.SearchPattern;
 
+import org.eclim.logging.Logger;
+
 /**
  * Command to handle java search requests.
  *
@@ -94,6 +96,14 @@ import org.eclipse.jdt.core.search.SearchPattern;
 public class SearchCommand
   extends AbstractCommand
 {
+  private static final Logger logger = Logger.getLogger(SearchCommand.class);
+
+  static
+  {
+      if(logger.isDebugEnabled())
+          logger.debug("SearchCommand hello");
+  }
+
   public static final String CONTEXT_ALL = "all";
   public static final String CONTEXT_DECLARATIONS = "declarations";
   public static final String CONTEXT_IMPLEMENTORS = "implementors";
@@ -524,6 +534,9 @@ public class SearchCommand
                 file = srcFile;
               }
             }
+            if(logger.isDebugEnabled())
+                logger.debug("closing fileObject");
+            fileObject.close();
           }
         }catch(IOException ioe){
           throw new RuntimeException(ioe);
