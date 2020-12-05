@@ -34,6 +34,8 @@ import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.VFS;
 
+import org.eclim.logging.Logger;
+
 import org.eclim.Services;
 
 import org.eclim.plugin.core.preference.Preferences;
@@ -110,6 +112,8 @@ import org.eclipse.text.edits.TextEdit;
  */
 public class JavaUtils
 {
+  private static final Logger logger = Logger.getLogger(JavaUtils.class);
+
   /**
    * String version of java.lang package.
    */
@@ -327,6 +331,8 @@ public class JavaUtils
             }
           }finally{
             IOUtils.closeQuietly(in);
+            if(logger.isDebugEnabled())
+                logger.debug("closing file");
             file.close();
           }
         }

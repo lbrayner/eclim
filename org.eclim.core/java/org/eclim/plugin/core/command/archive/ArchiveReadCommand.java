@@ -33,6 +33,8 @@ import org.eclim.annotation.Command;
 import org.eclim.command.CommandLine;
 import org.eclim.command.Options;
 
+import org.eclim.logging.Logger;
+
 import org.eclim.plugin.core.command.AbstractCommand;
 
 import org.eclim.util.IOUtils;
@@ -49,6 +51,8 @@ import org.eclim.util.IOUtils;
 public class ArchiveReadCommand
   extends AbstractCommand
 {
+  private static final Logger logger = Logger.getLogger(ArchiveReadCommand.class);
+
   private static final String URI_PREFIX = "file://";
   private static final Pattern WIN_PATH = Pattern.compile("^/[a-zA-Z]:/.*");
 
@@ -87,6 +91,8 @@ public class ArchiveReadCommand
         in = fileObject.getContent().getInputStream();
         out = tempFile.getContent().getOutputStream();
         IOUtils.copy(in, out);
+        if(logger.isDebugEnabled())
+            logger.debug("closing fileObject");
         fileObject.close();
         tempFile.close();
 

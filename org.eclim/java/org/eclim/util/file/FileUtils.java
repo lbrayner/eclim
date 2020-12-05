@@ -36,6 +36,8 @@ import org.apache.commons.vfs.FileSystemException;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.VFS;
 
+import org.eclim.logging.Logger;
+
 import org.eclim.util.IOUtils;
 
 import org.eclipse.core.runtime.IPath;
@@ -48,6 +50,8 @@ import org.eclipse.core.runtime.Path;
  */
 public class FileUtils
 {
+  private static final Logger logger = Logger.getLogger(FileUtils.class);
+
   public static final String JAR_PREFIX = "jar://";
   public static final String ZIP_PREFIX = "zip://";
   public static final String JAR_EXT = ".jar";
@@ -75,6 +79,8 @@ public class FileUtils
 
       int byteOffsetToCharOffset = byteOffsetToCharOffset(
           file.getContent().getInputStream(), byteOffset, encoding);
+      if(logger.isDebugEnabled())
+          logger.debug("closing file");
       file.close();
       return byteOffsetToCharOffset;
     }catch(FileSystemException fse){
