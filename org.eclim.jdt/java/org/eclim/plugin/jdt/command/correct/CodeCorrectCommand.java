@@ -57,6 +57,7 @@ import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
 
 import org.eclipse.jdt.internal.ui.text.correction.AssistContext;
 import org.eclipse.jdt.internal.ui.text.correction.CorrectionMessages;
+import org.eclipse.jdt.internal.ui.text.correction.ProblemLocation;
 import org.eclipse.jdt.internal.ui.text.correction.ReorgCorrectionsSubProcessor.ClasspathFixCorrectionProposal;
 
 import org.eclipse.jdt.internal.ui.text.correction.proposals.NewCUUsingWizardProposal;
@@ -203,8 +204,26 @@ public class CodeCorrectCommand
     AssistContext context = new AssistContext(
         src, problem.getSourceStart(), length);
 
+    IProblemLocation problemLocation = new ProblemLocation(problem);
+
+    /* IProblemLocation is cast to
+     * org.eclipse.jdt.internal.ui.text.correction.ProblemLocationCore
+     * by org.eclipse.jdt.internal.ui.text.correction.SerialVersionSubProcessor
+     * */
+    if(problemLocation.getProblemId() == IProblem.MissingSerialVersion)
+        problemLocation
+            = new org.eclipse.jdt.internal.ui.
+                text.correction.ProblemLocation
+                    (problemLocation.getOffset(), // offset
+                     problemLocation.getLength(), // length
+                     problemLocation.getProblemId(), // id
+                     problemLocation.getProblemArguments(), // arguments
+                     problemLocation.isError(), // isError
+                     problemLocation.getMarkerType() // markerType
+                     );
+
     IProblemLocation[] locations =
-      new IProblemLocation[]{new ProblemLocation(problem)};
+      new IProblemLocation[]{problemLocation};
     IQuickFixProcessor[] processors = JavaUtils.getQuickFixProcessors(src);
     for(int ii = 0; ii < processors.length; ii++){
       if (processors[ii] != null &&
